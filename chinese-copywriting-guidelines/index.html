@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zhaojun.im","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="前言作为一个博主，我认为文章的排版还是很重要的，一份好的排版的文章也是对读者的一份尊重，就好像在博客中代码要用代码块高亮起来一样。 我也经常遇到问题时去看别人的博客，但是好多博主的排版甚是难看，有些甚至连最基本的代码块都没有，看起来很是不舒服，所以今天发布一篇关于排版的文章，希望其他的博主看到以后，可以重视起来，养成一个良好的排版习惯，方便自己也方便他人。 本文摘自 GitHub 上的 中文文案排">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中文文案排版指北「转载」">
+<meta property="og:url" content="http://www.zhaojun.im/chinese-copywriting-guidelines/index.html">
+<meta property="og:site_name" content="赵俊的博客">
+<meta property="og:description" content="前言作为一个博主，我认为文章的排版还是很重要的，一份好的排版的文章也是对读者的一份尊重，就好像在博客中代码要用代码块高亮起来一样。 我也经常遇到问题时去看别人的博客，但是好多博主的排版甚是难看，有些甚至连最基本的代码块都没有，看起来很是不舒服，所以今天发布一篇关于排版的文章，希望其他的博主看到以后，可以重视起来，养成一个良好的排版习惯，方便自己也方便他人。 本文摘自 GitHub 上的 中文文案排">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-02T04:08:10.000Z">
+<meta property="article:modified_time" content="2018-07-06T03:32:38.000Z">
+<meta property="article:author" content="赵俊">
+<meta property="article:tag" content="排版">
+<meta property="article:tag" content="转载">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.zhaojun.im/chinese-copywriting-guidelines/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>中文文案排版指北「转载」 | 赵俊的博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">赵俊的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">在记录中成长</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-popular"><a href="/popular/" rel="section"><i class="fa fa-fire fa-fw"></i>热门</a></li>
+        <li class="menu-item menu-item-friends"><a href="/friends/" rel="section"><i class="fa fa-child fa-fw"></i>友链</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A9%BA%E6%A0%BC"><span class="nav-number">2.</span> <span class="nav-text">空格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E8%8B%B1%E6%96%87%E4%B9%8B%E9%97%B4%E9%9C%80%E8%A6%81%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC"><span class="nav-number">2.1.</span> <span class="nav-text">中英文之间需要增加空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E4%B8%8E%E6%95%B0%E5%AD%97%E4%B9%8B%E9%97%B4%E9%9C%80%E8%A6%81%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC"><span class="nav-number">2.2.</span> <span class="nav-text">中文与数字之间需要增加空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E4%B8%8E%E5%8D%95%E4%BD%8D%E4%B9%8B%E9%97%B4%E9%9C%80%E8%A6%81%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC"><span class="nav-number">2.3.</span> <span class="nav-text">数字与单位之间需要增加空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E8%A7%92%E6%A0%87%E7%82%B9%E4%B8%8E%E5%85%B6%E4%BB%96%E5%AD%97%E7%AC%A6%E4%B9%8B%E9%97%B4%E4%B8%8D%E5%8A%A0%E7%A9%BA%E6%A0%BC"><span class="nav-number">2.4.</span> <span class="nav-text">全角标点与其他字符之间不加空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ms-text-autospace-to-the-rescue"><span class="nav-number">2.5.</span> <span class="nav-text">-ms-text-autospace to the rescue?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E7%82%B9%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.</span> <span class="nav-text">标点符号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E9%87%8D%E5%A4%8D%E4%BD%BF%E7%94%A8%E6%A0%87%E7%82%B9%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.1.</span> <span class="nav-text">不重复使用标点符号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E8%A7%92%E5%92%8C%E5%8D%8A%E8%A7%92"><span class="nav-number">4.</span> <span class="nav-text">全角和半角</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%85%A8%E8%A7%92%E4%B8%AD%E6%96%87%E6%A0%87%E7%82%B9"><span class="nav-number">4.1.</span> <span class="nav-text">使用全角中文标点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97%E4%BD%BF%E7%94%A8%E5%8D%8A%E8%A7%92%E5%AD%97%E7%AC%A6"><span class="nav-number">4.2.</span> <span class="nav-text">数字使用半角字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E5%AE%8C%E6%95%B4%E7%9A%84%E8%8B%B1%E6%96%87%E6%95%B4%E5%8F%A5%E3%80%81%E7%89%B9%E6%AE%8A%E5%90%8D%E8%AF%8D%EF%BC%8C%E5%85%B6%E5%85%A7%E5%AE%B9%E4%BD%BF%E7%94%A8%E5%8D%8A%E8%A7%92%E6%A0%87%E7%82%B9"><span class="nav-number">4.3.</span> <span class="nav-text">遇到完整的英文整句、特殊名词，其內容使用半角标点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D"><span class="nav-number">5.</span> <span class="nav-text">名词</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%93%E6%9C%89%E5%90%8D%E8%AF%8D%E4%BD%BF%E7%94%A8%E6%AD%A3%E7%A1%AE%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%86%99"><span class="nav-number">5.1.</span> <span class="nav-text">专有名词使用正确的大小写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%9C%B0%E9%81%93%E7%9A%84%E7%BC%A9%E5%86%99"><span class="nav-number">5.2.</span> <span class="nav-text">不要使用不地道的缩写</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%89%E8%AE%AE"><span class="nav-number">6.</span> <span class="nav-text">争议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E4%B9%8B%E9%97%B4%E5%A2%9E%E5%8A%A0%E7%A9%BA%E6%A0%BC"><span class="nav-number">6.1.</span> <span class="nav-text">链接之间增加空格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%E4%BD%BF%E7%94%A8%E7%9B%B4%E8%A7%92%E5%BC%95%E5%8F%B7"><span class="nav-number">6.2.</span> <span class="nav-text">简体中文使用直角引号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">7.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%81%E5%9C%A8%E8%BF%99%E6%A0%B7%E5%81%9A%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">谁在这样做？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">9.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="赵俊"
+      src="/uploads/avatar.gif">
+  <p class="site-author-name" itemprop="name">赵俊</p>
+  <div class="site-description" itemprop="description">一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaojun1998" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaojun1998" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:root@zhaojun.im" title="E-Mail → mailto:root@zhaojun.im" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      相关链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://file.jun6.net/" title="https:&#x2F;&#x2F;file.jun6.net" rel="noopener" target="_blank">在线网盘</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://img.jun6.net/" title="http:&#x2F;&#x2F;img.jun6.net" rel="noopener" target="_blank">免费图床</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://json.zhaojun.im/" title="http:&#x2F;&#x2F;json.zhaojun.im" rel="noopener" target="_blank">在线 JSON 解析</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://u-file.cn/" title="https:&#x2F;&#x2F;u-file.cn" rel="noopener" target="_blank">U-FILE 云盘</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/chinese-copywriting-guidelines/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          中文文案排版指北「转载」
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-08-02 12:08:10" itemprop="dateCreated datePublished" datetime="2017-08-02T12:08:10+08:00">2017-08-02</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-07-06 11:32:38" itemprop="dateModified" datetime="2018-07-06T11:32:38+08:00">2018-07-06</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E8%B0%88/" itemprop="url" rel="index"><span itemprop="name">杂谈</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一个博主，我认为文章的排版还是很重要的，一份好的排版的文章也是对读者的一份尊重，就好像在博客中代码要用代码块高亮起来一样。</p>
+<p>我也经常遇到问题时去看别人的博客，但是好多博主的排版甚是难看，有些甚至连最基本的代码块都没有，看起来很是不舒服，所以今天发布一篇关于排版的文章，希望其他的博主看到以后，可以重视起来，养成一个良好的排版习惯，方便自己也方便他人。</p>
+<p>本文摘自 GitHub 上的 <a target="_blank" rel="noopener" href="https://github.com/mzlogin/chinese-copywriting-guidelines">中文文案排版指北</a>。</p>
+<span id="more"></span>
+
+<h2 id="空格"><a href="#空格" class="headerlink" title="空格"></a>空格</h2><p>「有研究显示，打字的时候不喜欢在中文和英文之间加空格的人，感情路都走得很辛苦，有七成的比例会在 34 岁的时候跟自己不爱的人结婚，而其余三成的人最后只能把遗产留给自己的猫。毕竟爱情跟书写都需要适时地留白。</p>
+<p>与大家共勉之。」——<a target="_blank" rel="noopener" href="https://github.com/vinta/pangu.js">vinta/paranoid-auto-spacing</a></p>
+<h3 id="中英文之间需要增加空格"><a href="#中英文之间需要增加空格" class="headerlink" title="中英文之间需要增加空格"></a>中英文之间需要增加空格</h3><p>正确：</p>
+<div class="note success"><p>在 LeanCloud 上，数据存储是围绕 <code>AVObject</code> 进行的。</p>
+</div>
+
+
+<p>错误：</p>
+<div class="note danger"><p>在LeanCloud上，数据存储是围绕<code>AVObject</code>进行的。</p>
+<p>在 LeanCloud上，数据存储是围绕<code>AVObject</code> 进行的。</p>
+</div>
+
+
+<p>完整的正确用法：</p>
+<div class="note success"><p>在 LeanCloud 上，数据存储是围绕 <code>AVObject</code> 进行的。每个 <code>AVObject</code> 都包含了与 JSON 兼容的 key-value 对应的数据。数据是 schema-free 的，你不需要在每个 <code>AVObject</code> 上提前指定存在哪些键，只要直接设定对应的 key-value 即可。</p>
+</div>
+
+<p>例外：「豆瓣FM」等产品名词，按照官方所定义的格式书写。</p>
+<h3 id="中文与数字之间需要增加空格"><a href="#中文与数字之间需要增加空格" class="headerlink" title="中文与数字之间需要增加空格"></a>中文与数字之间需要增加空格</h3><p>正确：</p>
+<div class="note success"><p>今天出去买菜花了 5000 元。</p>
+</div>
+
+<p>错误：</p>
+<div class="note danger"><p>今天出去买菜花了 5000元。</p>
+<p>今天出去买菜花了5000元。</p>
+</div>
+
+<h3 id="数字与单位之间需要增加空格"><a href="#数字与单位之间需要增加空格" class="headerlink" title="数字与单位之间需要增加空格"></a>数字与单位之间需要增加空格</h3><p>正确：</p>
+<div class="note success"><p>我家的光纤入户宽带有 10 Gbps，SSD 一共有 20 TB。</p>
+</div>
+
+<p>错误：</p>
+<div class="note danger"><p>我家的光纤入户宽带有 10Gbps，SSD 一共有 10TB。</p>
+</div>
+
+
+<p>例外：度／百分比与数字之间不需要增加空格：</p>
+<p>正确：</p>
+<div class="note success"><p>今天是 233° 的高温。</p>
+<p>新 MacBook Pro 有 15% 的 CPU 性能提升。</p>
+</div>
+
+<p>错误：</p>
+<div class="note danger"><p>今天是 233 ° 的高温。</p>
+<p>新 MacBook Pro 有 15 % 的 CPU 性能提升。</p>
+</div>
+
+<h3 id="全角标点与其他字符之间不加空格"><a href="#全角标点与其他字符之间不加空格" class="headerlink" title="全角标点与其他字符之间不加空格"></a>全角标点与其他字符之间不加空格</h3><p>正确：</p>
+<div class="note success"><p>刚刚买了一部 iPhone，好开心！</p>
+</div>
+
+<p>错误：</p>
+<div class="note danger"><p>刚刚买了一部 iPhone ，好开心！</p>
+</div>
+
+<h3 id="ms-text-autospace-to-the-rescue"><a href="#ms-text-autospace-to-the-rescue" class="headerlink" title="-ms-text-autospace to the rescue?"></a><code>-ms-text-autospace</code> to the rescue?</h3><p>Microsoft 有个 <a target="_blank" rel="noopener" href="http://msdn.microsoft.com/en-us/library/ie/ms531164(v=vs.85).aspx"><code>-ms-text-autospace</code></a> 的 CSS 属性可以实现自动为中英文之间增加空白。不过目前并未普及，另外在其他应用场景，例如 OS X、iOS 的用户界面目前并不存在这个特性，所以请继续保持随手加空格的习惯。</p>
+<h2 id="标点符号"><a href="#标点符号" class="headerlink" title="标点符号"></a>标点符号</h2><h3 id="不重复使用标点符号"><a href="#不重复使用标点符号" class="headerlink" title="不重复使用标点符号"></a>不重复使用标点符号</h3><p>正确：</p>
+<div class="note success"><p>德国队竟然战胜了巴西队！</p>
+<p>她竟然对你说「喵」？！</p>
+</div>
+
+<p>错误：</p>
+<div class="note danger"><p>德国队竟然战胜了巴西队！！</p>
+<p>德国队竟然战胜了巴西队！！！！！！！！</p>
+<p>她竟然对你说「喵」？？！！</p>
+<p>她竟然对你说「喵」？！？！？？！！</p>
+</div>
+
+<h2 id="全角和半角"><a href="#全角和半角" class="headerlink" title="全角和半角"></a>全角和半角</h2><p>不明白什么是全角（全形）与半角（半形）符号？请查看维基百科词条『<a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2">全角和半角</a>』。</p>
+<h3 id="使用全角中文标点"><a href="#使用全角中文标点" class="headerlink" title="使用全角中文标点"></a>使用全角中文标点</h3><p>正确：</p>
+<div class="note success"><p>嗨！你知道嘛？今天前台的小妹跟我说「喵」了哎！</p>
+<p>核磁共振成像（NMRI）是什么原理都不知道？JFGI！</p>
+</div>
+
+
+<p>错误：</p>
+<div class="note danger"><p>嗨! 你知道嘛? 今天前台的小妹跟我说 “喵” 了哎!</p>
+<p>嗨!你知道嘛?今天前台的小妹跟我说”喵”了哎!</p>
+<p>核磁共振成像 (NMRI) 是什么原理都不知道? JFGI!</p>
+<p>核磁共振成像(NMRI)是什么原理都不知道?JFGI!</p>
+</div>
+
+
+<h3 id="数字使用半角字符"><a href="#数字使用半角字符" class="headerlink" title="数字使用半角字符"></a>数字使用半角字符</h3><p>正确：</p>
+<div class="note success"><p>这件蛋糕只卖 1000 元。</p>
+</div>
+
+
+<p>错误：</p>
+<div class="note danger"><p>这件蛋糕只卖 １０００ 元。</p>
+</div>
+
+<p>例外：在设计稿、宣传海报中如出现极少量数字的情形时，为方便文字对齐，是可以使用全角数字的。</p>
+<h3 id="遇到完整的英文整句、特殊名词，其內容使用半角标点"><a href="#遇到完整的英文整句、特殊名词，其內容使用半角标点" class="headerlink" title="遇到完整的英文整句、特殊名词，其內容使用半角标点"></a>遇到完整的英文整句、特殊名词，其內容使用半角标点</h3><p>正确：</p>
+<div class="note success"><p>乔布斯那句话是怎么说的？「Stay hungry, stay foolish.」</p>
+<p>推荐你阅读《Hackers &amp; Painters: Big Ideas from the Computer Age》，非常的有趣。</p>
+</div>
+
+
+<p>错误：</p>
+<div class="note danger"><p>乔布斯那句话是怎么说的？「Stay hungry，stay foolish。」</p>
+<p>推荐你阅读《Hackers＆Painters：Big Ideas from the Computer Age》，非常的有趣。</p>
+</div>
+
+
+<h2 id="名词"><a href="#名词" class="headerlink" title="名词"></a>名词</h2><h3 id="专有名词使用正确的大小写"><a href="#专有名词使用正确的大小写" class="headerlink" title="专有名词使用正确的大小写"></a>专有名词使用正确的大小写</h3><p>大小写相关用法原属于英文书写范畴，不属于本 wiki 讨论內容，在这里只对部分易错用法进行简述。</p>
+<p>正确：</p>
+<div class="note success"><p>使用 GitHub 登录</p>
+<p>我们的客户有 GitHub、Foursquare、Microsoft Corporation、Google、Facebook, Inc.。</p>
+</div>
+
+
+<p>错误：</p>
+<div class="note danger"><p>使用 github 登录</p>
+<p>使用 GITHUB 登录</p>
+<p>使用 Github 登录</p>
+<p>使用 gitHub 登录</p>
+<p>使用 gｲんĤЦ8 登录</p>
+<p>我们的客户有 github、foursquare、microsoft corporation、google、facebook, inc.。</p>
+<p>我们的客户有 GITHUB、FOURSQUARE、MICROSOFT CORPORATION、GOOGLE、FACEBOOK, INC.。</p>
+<p>我们的客户有 Github、FourSquare、MicroSoft Corporation、Google、FaceBook, Inc.。</p>
+<p>我们的客户有 gitHub、fourSquare、microSoft Corporation、google、faceBook, Inc.。</p>
+<p>我们的客户有 gｲんĤЦ8、ｷouЯƧquﾑгє、๓เςг๏ร๏Ŧt ς๏гק๏гคtเ๏ภn、900913、ƒ4ᄃëв๏๏к, IПᄃ.。</p>
+</div>
+
+
+<p>注意：当网页中需要配合整体视觉风格而出现全部大写／小写的情形，HTML 中请使用标准的大小写规范进行书写；并通过 <code>text-transform: uppercase;</code>／<code>text-transform: lowercase;</code> 对表现形式进行定义。</p>
+<h3 id="不要使用不地道的缩写"><a href="#不要使用不地道的缩写" class="headerlink" title="不要使用不地道的缩写"></a>不要使用不地道的缩写</h3><p>正确：</p>
+<div class="note success"><p>我们需要一位熟悉 JavaScript、HTML5，至少理解一种框架（如 Backbone.js、AngularJS、React 等）的前端开发者。</p>
+</div>
+
+<p>错误：</p>
+<div class="note danger"><p>我们需要一位熟悉 Js、h5，至少理解一种框架（如 backbone、angular、RJS 等）的 FED。</p>
+</div>
+
+
+<h2 id="争议"><a href="#争议" class="headerlink" title="争议"></a>争议</h2><p>以下用法略带有个人色彩，即：无论是否遵循下述规则，从语法的角度来讲都是<strong>正确</strong>的。</p>
+<h3 id="链接之间增加空格"><a href="#链接之间增加空格" class="headerlink" title="链接之间增加空格"></a>链接之间增加空格</h3><p>用法：</p>
+<div class="note primary"><p>请 <a href="#">提交一个 issue</a> 并分配给相关同事。</p>
+<p>访问我们网站的最新动态，请 <a href="#">点击这里</a> 进行订阅！</p>
+</div>
+
+
+<p>对比用法：</p>
+<div class="note warning"><p>请<a href="#">提交一个 issue</a> 并分配给相关同事。</p>
+<p>访问我们网站的最新动态，请<a href="#">点击这里</a>进行订阅！</p>
+</div>
+
+<h3 id="简体中文使用直角引号"><a href="#简体中文使用直角引号" class="headerlink" title="简体中文使用直角引号"></a>简体中文使用直角引号</h3><p>用法：</p>
+<div class="note primary"><p>「老师，『有条不紊』的『紊』是什么意思？」</p>
+</div>
+
+<p>对比用法：</p>
+<div class="note warning"><p>“老师，‘有条不紊’的‘紊’是什么意思？”</p>
+</div>
+
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><table>
+<thead>
+<tr>
+<th>仓库</th>
+<th>语言</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/vinta/paranoid-auto-spacing">vinta/paranoid-auto-spacing</a></td>
+<td>JavaScript</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/huei90/pangu.node">huei90/pangu.node</a></td>
+<td>Node.js</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/huacnlee/auto-correct">huacnlee/auto-correct</a></td>
+<td>Ruby</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/sparanoid/space-lover">sparanoid/space-lover</a></td>
+<td>PHP (WordPress)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/NauxLiu/auto-correct">nauxliu/auto-correct</a></td>
+<td>PHP</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/ricoa/copywriting-correct">ricoa/copywriting-correct</a></td>
+<td>PHP</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/hotoo/pangu.vim">hotoo/pangu.vim</a></td>
+<td>Vim</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/sparanoid/grunt-auto-spacing">sparanoid/grunt-auto-spacing</a></td>
+<td>Node.js (Grunt)</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://github.com/hjiang/scripts/blob/master/add-space-between-latin-and-cjk">hjiang/scripts/add-space-between-latin-and-cjk</a></td>
+<td>Python</td>
+</tr>
+</tbody></table>
+<h2 id="谁在这样做？"><a href="#谁在这样做？" class="headerlink" title="谁在这样做？"></a>谁在这样做？</h2><table>
+<thead>
+<tr>
+<th>网站</th>
+<th>文案</th>
+<th>UGC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://www.apple.com/cn/">Apple 中国</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.apple.com/hk/">Apple 香港</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.apple.com/tw/">Apple 台湾</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.microsoft.com/zh-cn/">Microsoft 中国</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.microsoft.com/zh-hk/">Microsoft 香港</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.microsoft.com/zh-tw/">Microsoft 台湾</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://leancloud.cn/">LeanCloud</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.zhihu.com/">知乎</a></td>
+<td>Yes</td>
+<td>部分用户达成</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.v2ex.com/">V2EX</a></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://segmentfault.com/">SegmentFault</a></td>
+<td>Yes</td>
+<td>部分用户达成</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://apple4us.com/">Apple4us</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.wandoujia.com/">豌豆荚</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://ruby-china.org/">Ruby China</a></td>
+<td>Yes</td>
+<td>标题达成</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://phphub.org/">PHPHub</a></td>
+<td>Yes</td>
+<td>标题达成</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://sspai.com/">少数派</a></td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://grammar.about.com/od/punctuationandmechanics/a/Guidelines-For-Using-Capital-Letters.htm">Guidelines for Using Capital Letters</a></li>
+<li><a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Letter_case">Letter case - Wikipedia</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.oxforddictionaries.com/words/punctuation">Punctuation - Oxford Dictionaries</a></li>
+<li><a target="_blank" rel="noopener" href="https://owl.english.purdue.edu/owl/section/1/6/">Punctuation - The Purdue OWL</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.wikihow.com/Use-English-Punctuation-Correctly">How to Use English Punctuation Corrently - wikiHow</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.opensuse.org/index.php?title=Help:%E6%A0%BC%E5%BC%8F">格式 - openSUSE</a></li>
+<li><a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E5%85%A8%E5%BD%A2%E5%92%8C%E5%8D%8A%E5%BD%A2">全角和半角 - 维基百科</a></li>
+<li><a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E5%BC%95%E8%99%9F">引号 - 维基百科</a></li>
+<li><a target="_blank" rel="noopener" href="http://zh.wikipedia.org/wiki/%E7%96%91%E5%95%8F%E9%A9%9A%E5%98%86%E8%99%9F">疑问惊叹号 - 维基百科</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>赵俊
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.zhaojun.im/chinese-copywriting-guidelines/" title="中文文案排版指北「转载」">http://www.zhaojun.im/chinese-copywriting-guidelines/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%8E%92%E7%89%88/" rel="tag"># 排版</a>
+              <a href="/tags/%E8%BD%AC%E8%BD%BD/" rel="tag"># 转载</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/remove-duplicates-from-sorted-array/" rel="prev" title="删除排序数组中的重复数字">
+                  <i class="fa fa-chevron-left"></i> 删除排序数组中的重复数字
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/remove-duplicates-from-sorted-array-ii/" rel="next" title="删除排序数组中的重复数字Ⅱ">
+                  删除排序数组中的重复数字Ⅱ <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">冀ICP备17004571号-3 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵俊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

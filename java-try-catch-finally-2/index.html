@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zhaojun.im","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="前言之前写了一篇 关于 try-catch-finally 执行顺序 的文章，但是写的有些繁琐了，这里重新写一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 Java finally 执行顺序 -- 修改版">
+<meta property="og:url" content="http://www.zhaojun.im/java-try-catch-finally-2/index.html">
+<meta property="og:site_name" content="赵俊的博客">
+<meta property="og:description" content="前言之前写了一篇 关于 try-catch-finally 执行顺序 的文章，但是写的有些繁琐了，这里重新写一下。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jun6.net/201801151206_791.png">
+<meta property="og:image" content="https://cdn.jun6.net/201801151208_200.png">
+<meta property="og:image" content="https://cdn.jun6.net/201801151209_732.png">
+<meta property="og:image" content="https://cdn.jun6.net/201801151213_408.png">
+<meta property="article:published_time" content="2018-01-15T06:35:48.000Z">
+<meta property="article:modified_time" content="2018-07-08T09:16:42.000Z">
+<meta property="article:author" content="赵俊">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="异常处理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jun6.net/201801151206_791.png">
+
+
+<link rel="canonical" href="http://www.zhaojun.im/java-try-catch-finally-2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>关于 Java finally 执行顺序 -- 修改版 | 赵俊的博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">赵俊的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">在记录中成长</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-popular"><a href="/popular/" rel="section"><i class="fa fa-fire fa-fw"></i>热门</a></li>
+        <li class="menu-item menu-item-friends"><a href="/friends/" rel="section"><i class="fa fa-child fa-fw"></i>友链</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%9B%AE"><span class="nav-number">2.</span> <span class="nav-text">题目</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="赵俊"
+      src="/uploads/avatar.gif">
+  <p class="site-author-name" itemprop="name">赵俊</p>
+  <div class="site-description" itemprop="description">一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaojun1998" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaojun1998" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:root@zhaojun.im" title="E-Mail → mailto:root@zhaojun.im" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      相关链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://file.jun6.net/" title="https:&#x2F;&#x2F;file.jun6.net" rel="noopener" target="_blank">在线网盘</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://img.jun6.net/" title="http:&#x2F;&#x2F;img.jun6.net" rel="noopener" target="_blank">免费图床</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://json.zhaojun.im/" title="http:&#x2F;&#x2F;json.zhaojun.im" rel="noopener" target="_blank">在线 JSON 解析</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://u-file.cn/" title="https:&#x2F;&#x2F;u-file.cn" rel="noopener" target="_blank">U-FILE 云盘</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/java-try-catch-finally-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于 Java finally 执行顺序 -- 修改版
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-01-15 14:35:48" itemprop="dateCreated datePublished" datetime="2018-01-15T14:35:48+08:00">2018-01-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-07-08 17:16:42" itemprop="dateModified" datetime="2018-07-08T17:16:42+08:00">2018-07-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前写了一篇 <a href="/java-try-catch-finally/" title="关于 try-catch-finally 执行顺序">关于 try-catch-finally 执行顺序</a> 的文章，但是写的有些繁琐了，这里重新写一下。</p>
+<span id="more"></span>
+
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">aaa</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> x = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> ++x;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            ++x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Test t = <span class="keyword">new</span> Test();</span><br><span class="line">        <span class="keyword">int</span> y = t.aaa();</span><br><span class="line">        System.out.println(y);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>我第一次看到这个题，得出了几个问题:</p>
+<ul>
+<li>如果在 try 语句块里有 return 语句，那么 finally 还会执行吗？</li>
+<li>如果执行那应该是怎样的执行过程呢？</li>
+</ul>
+<p>首先这道题的运行结果是 2，可能跟你想的不一样吧，别急，下面我会慢慢解释的。</p>
+<p>在学习 Java 基础的时候，老师就讲过，try-catch-finally 中的 finally 语句块一定会被执行，那么我们来 debug 一下：</p>
+<p>初始状态:<br><img src="https://cdn.jun6.net/201801151206_791.png"></p>
+<p>此时运行到了 <code>return ++x;</code> 但还没执行该语句，目前 x 的值为 1.<br><img src="https://cdn.jun6.net/201801151208_200.png"></p>
+<p>这时发现跳到了 finally 语句块中，且 <code>return ++x</code> 的 <code>++</code> 操作已经执行，但没有进行 <code>reutrn</code>，目前 x 的值为 2:<br><img src="https://cdn.jun6.net/201801151209_732.png"></p>
+<p>执行完 finally 语句块中的 <code>++x</code> 操作后，又回到了 return 中，此时 x 的值为 3:<br><img src="https://cdn.jun6.net/201801151213_408.png"></p>
+<p>但根据最后的运行结果，我们发现其实真正 reutrn 的是 2，那么如何解释这一点呢？</p>
+<p>其实在 <a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.10.2.5">官方的 JVM 规范</a> 中对这一部分有说明：</p>
+<div class="note default"><p>If the try clause executes a return, the compiled code does the following:</p>
+<ol>
+<li>Saves the return value (if any) in a local variable.</li>
+<li>Executes a jsr to the code for the finally clause.</li>
+<li>Upon return from the finally clause, returns the value saved in the local variable.</li>
+</ol>
+</div>
+
+<p>简单翻译如下：</p>
+<div class="note default"><p>如果 try 语句里有 return，那么代码的行为如下：</p>
+<ol>
+<li>如果有返回值，就把返回值保存到局部变量中</li>
+<li>执行 jsr 指令跳到 finally 语句里执行</li>
+<li>执行完 finally 语句后，返回之前保存在局部变量表里的值</li>
+</ol>
+</div>
+
+<p>看完这个应该就能理解为什么返回的是 2 了，</p>
+<p>但要注意的是：</p>
+<ul>
+<li>如果在 finally 语句块中也使用了 return 语句，那么会忽略 try 中的 return 语句，而执行 finally 中的 return。</li>
+<li>如果 try 中 return 的是引用数据类型，那么 finally 中的操作可能会影响最终的 return 值，因为对于引用数据类型，暂存到局部变量里的是它的地址值。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>赵俊
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.zhaojun.im/java-try-catch-finally-2/" title="关于 Java finally 执行顺序 -- 修改版">http://www.zhaojun.im/java-try-catch-finally-2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+              <a href="/tags/%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/" rel="tag"># 异常处理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hexo-lazyload/" rel="prev" title="Hexo 优化 --- lazyload 图片懒加载">
+                  <i class="fa fa-chevron-left"></i> Hexo 优化 --- lazyload 图片懒加载
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/spring-ioc/" rel="next" title="如何理解 Spring 的 IOC 思想?">
+                  如何理解 Spring 的 IOC 思想? <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">冀ICP备17004571号-3 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵俊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

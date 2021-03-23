@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zhaojun.im","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="Java 中的 equals 和 &#x3D;&#x3D; 对于不同的数据类型有不同的表现，话不多少，看演示。 对于基本数据类型对于基本数据类型来说，只能用 &#x3D;&#x3D;，所以毫无疑问，这里是用来判断两个基本数据类型的值是否一致。 对于基本数据类型包装类先来看看这种创建对象的方式： 12345678public class Demo &amp;#123;    public static void main(String[] arg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="equals 和 &#x3D;&#x3D; 到底有什么区别？">
+<meta property="og:url" content="http://www.zhaojun.im/java-tattle-01/index.html">
+<meta property="og:site_name" content="赵俊的博客">
+<meta property="og:description" content="Java 中的 equals 和 &#x3D;&#x3D; 对于不同的数据类型有不同的表现，话不多少，看演示。 对于基本数据类型对于基本数据类型来说，只能用 &#x3D;&#x3D;，所以毫无疑问，这里是用来判断两个基本数据类型的值是否一致。 对于基本数据类型包装类先来看看这种创建对象的方式： 12345678public class Demo &amp;#123;    public static void main(String[] arg">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-08-21T10:19:19.000Z">
+<meta property="article:modified_time" content="2018-07-08T09:16:44.000Z">
+<meta property="article:author" content="赵俊">
+<meta property="article:tag" content="缓存">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.zhaojun.im/java-tattle-01/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>equals 和 == 到底有什么区别？ | 赵俊的博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">赵俊的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">在记录中成长</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-popular"><a href="/popular/" rel="section"><i class="fa fa-fire fa-fw"></i>热门</a></li>
+        <li class="menu-item menu-item-friends"><a href="/friends/" rel="section"><i class="fa fa-child fa-fw"></i>友链</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">对于基本数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8C%85%E8%A3%85%E7%B1%BB"><span class="nav-number">2.</span> <span class="nav-text">对于基本数据类型包装类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">对于自定义数据类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E-String"><span class="nav-number">4.</span> <span class="nav-text">对于 String</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">5.</span> <span class="nav-text">结论</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="赵俊"
+      src="/uploads/avatar.gif">
+  <p class="site-author-name" itemprop="name">赵俊</p>
+  <div class="site-description" itemprop="description">一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaojun1998" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaojun1998" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:root@zhaojun.im" title="E-Mail → mailto:root@zhaojun.im" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      相关链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://file.jun6.net/" title="https:&#x2F;&#x2F;file.jun6.net" rel="noopener" target="_blank">在线网盘</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://img.jun6.net/" title="http:&#x2F;&#x2F;img.jun6.net" rel="noopener" target="_blank">免费图床</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://json.zhaojun.im/" title="http:&#x2F;&#x2F;json.zhaojun.im" rel="noopener" target="_blank">在线 JSON 解析</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://u-file.cn/" title="https:&#x2F;&#x2F;u-file.cn" rel="noopener" target="_blank">U-FILE 云盘</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/java-tattle-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          equals 和 == 到底有什么区别？
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-08-21 18:19:19" itemprop="dateCreated datePublished" datetime="2017-08-21T18:19:19+08:00">2017-08-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-07-08 17:16:44" itemprop="dateModified" datetime="2018-07-08T17:16:44+08:00">2018-07-08</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Java 中的 <code>equals</code> 和 <code>==</code> 对于不同的数据类型有不同的表现，话不多少，看演示。</p>
+<h2 id="对于基本数据类型"><a href="#对于基本数据类型" class="headerlink" title="对于基本数据类型"></a>对于基本数据类型</h2><p>对于基本数据类型来说，只能用 <code>==</code>，所以毫无疑问，这里是用来判断两个基本数据类型的值是否一致。</p>
+<h2 id="对于基本数据类型包装类"><a href="#对于基本数据类型包装类" class="headerlink" title="对于基本数据类型包装类"></a>对于基本数据类型包装类</h2><p>先来看看这种创建对象的方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Integer i1 = <span class="keyword">new</span> Integer(<span class="number">100</span>);</span><br><span class="line">        Integer i2 = <span class="keyword">new</span> Integer(<span class="number">100</span>);</span><br><span class="line">        System.out.println(i1 == i2);</span><br><span class="line">        System.out.println(i1.equals(i2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<pre><code>false
+true
+</code></pre>
+<span id="more"></span>
+
+<div class="note info"><p>这里可能会有人疑问，<code>==</code> 不是判断两者是否相等么，那为什么结果为 <code>false</code> 呢？</p>
+<p>因为这里的 Integer 是一个对象，也就是引用数据类型，里面存放的是对象在堆内存中的引用值，所以这里的 <code>==</code> 只是判断两者的引用值是否相同，两者创建了两个对象，在堆内存中分别是不同的引用，由而引用值也不同，才会返回 <code>false</code>。</p>
+</div>
+
+<p>那么我们再看一下简化版的 Integer 的创建方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> other;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">        Integer i1 = <span class="number">100</span>;</span><br><span class="line">        Integer i2 = <span class="number">100</span>;</span><br><span class="line">        System.out.println(i1 == i2);</span><br><span class="line">        System.out.println(i1.equals(i2));</span><br><span class="line">        </span><br><span class="line">        Integer i3 = <span class="number">1000</span>;</span><br><span class="line">        Integer i4 = <span class="number">1000</span>;</span><br><span class="line">        System.out.println(i3 == i4);</span><br><span class="line">        System.out.println(i3.equals(i4));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<pre><code>true
+true
+false
+true
+</code></pre>
+<p><code>equals</code> 毫无疑问是判断值是否相同，所以结果为 <code>true</code>，但是为什么第一个 <code>==</code> 又为 true 了呢，而第二个 <code>==</code> 还是 false。</p>
+<p>因为在 Java 5 中，为 Integer 的操作引入了一个新的特性，用来节省内存和提高性能。整型对象在内部实现中通过使用相同的对象引用实现了缓存和重用。但适用范围只有 <code>-128</code> 到 <code>+127</code> 也就是说当<strong>自动装箱</strong>时，不会再分配内存空间，而是使用缓存中已存在的对象。</p>
+<p>最大值 127 可以通过 JVM 的启动参数 <code>-XX:AutoBoxCacheMax=size</code> 修改</p>
+<p>这种缓存行为不仅适用于 Integer 对象。我们针对所有整数类型的类都有类似的缓存机制。<code>Byte</code>、<code>Short</code>、<code>Long</code>、<code>Character</code> 都支持缓存。</p>
+<p>其中 <code>Byte</code>，<code>Short</code>，<code>Long</code> 有固定范围: -128 到 127。对于 <code>Character</code>, 范围是 0 到 127。除了 <code>Integer</code> 可以通过参数改变范围外，其它的都不行。</p>
+<div class="note danger"><p>对于基本数据类型包装类而言，不论是使用哪种方式创建的，判断两者的值是否相同，务必要使用 <code>equals</code> ，而不要使用 <code>==</code>。</p>
+</div>
+
+<h2 id="对于自定义数据类型"><a href="#对于自定义数据类型" class="headerlink" title="对于自定义数据类型"></a>对于自定义数据类型</h2><p>首先有 Person 类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p1 = <span class="keyword">new</span> Person();</span><br><span class="line">        p1.setId(<span class="number">1</span>);</span><br><span class="line">        p1.setName(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        Person p2 = <span class="keyword">new</span> Person();</span><br><span class="line">        p2.setId(<span class="number">1</span>);</span><br><span class="line">        p2.setName(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        System.out.println(p1 == p2);</span><br><span class="line">        System.out.println(p1.equals(p2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><em>这里使用 <code>==</code> 的结果为 <code>true</code> 很容易理解，毕竟两个对象的引用不同，但是 <code>equals</code> 不是判断值是否相同么，我的两个<code>id</code> 和 <code>name</code> 都是一样的，为什么这里还会返回 <code>false</code> 呢？</em></p>
+<p>Person 中我们没有写 equals 方法，根据 Java 继承的特点，Person 类继承的是 Object，所以使用的是 Object 的 equals 方法，那我们来看看 Object 的 equals 方法是怎么写的。</p>
+<p>![image_1bo22o7qv1e801ivjhqftge18d1m.png-24.9kB][1]</p>
+<p>原来这里的 equals 方法里用的也是 <code>==</code>，那么刚才我们用基本数据类型包装类时，为什么能判断呢，同样，我们找到 Integer 的 equals 方法。</p>
+<p>![image_1bo22v5je88n1d611g3la3e1a1m13.png-33kB][2]<br>![image_1bo2315q517g21glb14ni11c9hdp2n.png-18.8kB][3]</p>
+<p>可以看 Integer 的 equals 方法，会先判断该对象是否是一个 Integer 类的一个实例，如果不是则直接返回 false，是的话就比较他们的 value 值是否相等。</p>
+<p>所以在我们自定义数据类型时，比较两个对象是否相同，一定要重写 equals 方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Person) &#123;</span><br><span class="line">        </span><br><span class="line">        Person p = (Person)obj;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.id == p.id &amp;&amp; <span class="keyword">this</span>.name == p.name) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重写 equals 方法后的运行结果：</p>
+<pre><code>false
+true
+</code></pre>
+<h2 id="对于-String"><a href="#对于-String" class="headerlink" title="对于 String"></a>对于 String</h2><p>String 也有两种创建方式，一种是 <code>String str = new String(&quot;java&quot;);</code>，另一种是 <code>String str = &quot;java&quot;</code>。</p>
+<p>Java 为 String 类型提供了<strong>缓冲机制</strong>，当使用第二种双引号的形式创建对象时，Java 会先去字符串缓冲池中寻找内容相同的字符串，如果存在就直接拿来应用，如果不存在就创建一个新的字符串放到缓冲池中。对于第一种 new 对象的形式而言，每次都会创建一个新的对象，不会访问字符串缓冲池。</p>
+<p>既然如此，对于 String 的 <code>equals</code> 和 <code>==</code> 你也自然应该明白是什么结果了。</p>
+<p>一般情况下，建议使用 <code>String s = &quot;abc&quot;</code> 方式，因为该方式采用的是字符串缓冲池机制，效率更高。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>在引用类型中，”==” 是比较两个引用是否指向堆内存里的同一个地址（同一个对象），而 equals 是一个普通的方法，该方法返回的结果依赖于自身的实现。</p>
+<p>对于引用类型而言，判断两者是否相同要用 <code>equals</code> 方法，而不是 <code>==</code>。当然对于自定义数据类型，记得要重写 <code>equals</code> 方法，不然效果就等同于 <code>==</code> 了。<br>  [1]: <a target="_blank" rel="noopener" href="https://cdn.jun6.net/image_1bo22o7qv1e801ivjhqftge18d1m.png">https://cdn.jun6.net/image_1bo22o7qv1e801ivjhqftge18d1m.png</a><br>  [2]: <a target="_blank" rel="noopener" href="https://cdn.jun6.net/image_1bo22v5je88n1d611g3la3e1a1m13.png">https://cdn.jun6.net/image_1bo22v5je88n1d611g3la3e1a1m13.png</a><br>  [3]: <a target="_blank" rel="noopener" href="https://cdn.jun6.net/image_1bo2315q517g21glb14ni11c9hdp2n.png">https://cdn.jun6.net/image_1bo2315q517g21glb14ni11c9hdp2n.png</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>赵俊
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.zhaojun.im/java-tattle-01/" title="equals 和 &#x3D;&#x3D; 到底有什么区别？">http://www.zhaojun.im/java-tattle-01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/maximum-depth-of-binary-tree/" rel="prev" title="二叉树的最大深度">
+                  <i class="fa fa-chevron-left"></i> 二叉树的最大深度
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/java-tattle-02/" rel="next" title="Java 中 byte 的取值范围为什么是 -128 到 +127">
+                  Java 中 byte 的取值范围为什么是 -128 到 +127 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">冀ICP备17004571号-3 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵俊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

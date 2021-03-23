@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zhaojun.im","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="加密安全总是最重要的，对于用户的数据，我们一般都不会以原密码明文保存，而是经过加密后保存。 比较常见的是，当注册时使用 MD5 散列算法对初始密码处理后存入数据库，而后每次登陆请求，对用户输入的密码也进行 MD5 散列后与数据库中的散列后的密码进行匹配，已达到加密的目的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shiro 加密">
+<meta property="og:url" content="http://www.zhaojun.im/shiro-04/index.html">
+<meta property="og:site_name" content="赵俊的博客">
+<meta property="og:description" content="加密安全总是最重要的，对于用户的数据，我们一般都不会以原密码明文保存，而是经过加密后保存。 比较常见的是，当注册时使用 MD5 散列算法对初始密码处理后存入数据库，而后每次登陆请求，对用户输入的密码也进行 MD5 散列后与数据库中的散列后的密码进行匹配，已达到加密的目的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jun6.net/201808141103_26.png">
+<meta property="og:image" content="https://cdn.jun6.net/201808141119_352.png">
+<meta property="article:published_time" content="2018-08-14T01:28:17.000Z">
+<meta property="article:modified_time" content="2018-08-23T08:49:14.000Z">
+<meta property="article:author" content="赵俊">
+<meta property="article:tag" content="Shiro">
+<meta property="article:tag" content="权限管理">
+<meta property="article:tag" content="RBAC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jun6.net/201808141103_26.png">
+
+
+<link rel="canonical" href="http://www.zhaojun.im/shiro-04/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Shiro 加密 | 赵俊的博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">赵俊的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">在记录中成长</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-popular"><a href="/popular/" rel="section"><i class="fa fa-fire fa-fw"></i>热门</a></li>
+        <li class="menu-item menu-item-friends"><a href="/friends/" rel="section"><i class="fa fa-child fa-fw"></i>友链</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86"><span class="nav-number">1.</span> <span class="nav-text">加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MD5-%E5%8A%A0%E5%AF%86"><span class="nav-number">2.1.</span> <span class="nav-text">MD5 加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E7%9B%90"><span class="nav-number">2.2.</span> <span class="nav-text">加盐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E6%88%90-Relam"><span class="nav-number">3.</span> <span class="nav-text">集成 Relam</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="赵俊"
+      src="/uploads/avatar.gif">
+  <p class="site-author-name" itemprop="name">赵俊</p>
+  <div class="site-description" itemprop="description">一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaojun1998" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaojun1998" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:root@zhaojun.im" title="E-Mail → mailto:root@zhaojun.im" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      相关链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://file.jun6.net/" title="https:&#x2F;&#x2F;file.jun6.net" rel="noopener" target="_blank">在线网盘</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://img.jun6.net/" title="http:&#x2F;&#x2F;img.jun6.net" rel="noopener" target="_blank">免费图床</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://json.zhaojun.im/" title="http:&#x2F;&#x2F;json.zhaojun.im" rel="noopener" target="_blank">在线 JSON 解析</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://u-file.cn/" title="https:&#x2F;&#x2F;u-file.cn" rel="noopener" target="_blank">U-FILE 云盘</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/shiro-04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Shiro 加密
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-08-14 09:28:17" itemprop="dateCreated datePublished" datetime="2018-08-14T09:28:17+08:00">2018-08-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-08-23 16:49:14" itemprop="dateModified" datetime="2018-08-23T16:49:14+08:00">2018-08-23</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Shiro/" itemprop="url" rel="index"><span itemprop="name">Shiro</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>安全总是最重要的，对于用户的数据，我们一般都不会以原密码明文保存，而是经过加密后保存。</p>
+<p>比较常见的是，当注册时使用 <code>MD5</code> 散列算法对初始密码处理后存入数据库，而后每次登陆请求，对用户输入的密码也进行 <code>MD5</code> 散列后与数据库中的散列后的密码进行匹配，已达到加密的目的。</p>
+<span id="more"></span>
+
+
+
+
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><h3 id="MD5-加密"><a href="#MD5-加密" class="headerlink" title="MD5 加密"></a>MD5 加密</h3><p>Shiro 对加密处理也提供了相应的 API，老规矩，先导入依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-all<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.4.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>先来试试最简单的，将密码进行 <code>md5</code> 散列后输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSimpleEncryption</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String password = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">    Md5Hash md5Hash = <span class="keyword">new</span> Md5Hash(password);</span><br><span class="line">    System.out.println(md5Hash.toString());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// output result: e10adc3949ba59abbe56e057f20f883e</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="加盐"><a href="#加盐" class="headerlink" title="加盐"></a>加盐</h3><p>但上面这种加密其实安全性也不高，因为可以建立一个 <code>密码 - hash</code> 对应表，根据存储的海量数据，对 md5 进行”反解密”，如我们通过网站 : <a target="_blank" rel="noopener" href="http://www.cmd5.com/"></a>，将密文输入进去，即可 “反解密”。</p>
+<p><img src="https://cdn.jun6.net/201808141103_26.png"></p>
+<p>这时候就需要<strong>盐</strong>的存在，即我们对原始密码，加一些佐料：盐。</p>
+<p>如刚才我们的密码 <code>123456</code>，盐为 <code>ShiroStudy</code>，我们可以将盐加入到密码前或密码后，结果就是: <code>123456ShiroStudy</code>，这时再进行 <code>md5</code> 加密：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSlatEncryption</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    String password = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">    String slat = <span class="string">&quot;ShiroStudy&quot;</span>;</span><br><span class="line">    Md5Hash md5Hash = <span class="keyword">new</span> Md5Hash(password, ByteSource.Util.bytes(slat));</span><br><span class="line">    System.out.println(md5Hash.toString());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// output result : ac7351ab94f40504aab7ac7fdf4ddad3</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Md5Hash(source, slat)</code> 构造函数的第二个参数就是盐，但他需要的是 <code>ByteSource</code> 类型的盐，所以我们需要将字符串类型的盐通过他的工具类转换成 <code>ByteSource</code> 类型，即：<code>ByteSource.Util.bytes(slat)</code>。</p>
+<p>这次我们再去尝试 “反解密” : </p>
+<p><img src="https://cdn.jun6.net/201808141119_352.png"></p>
+<h2 id="集成-Relam"><a href="#集成-Relam" class="headerlink" title="集成 Relam"></a>集成 Relam</h2><p>使用加密后，我们需要告诉 Relam，我们使用了哪种加密算法。</p>
+<p>首先自定义定义 Relam：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> im.zhaojun.realm;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> im.zhaojun.pojo.User;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.AuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.SimpleAuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.realm.AuthorizingRealm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.PrincipalCollection;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.ByteSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 自定义 Realm, 使用了加密, 盐</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyCustomRealm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据用户凭证查询所用拥有的角色和权限</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> principalCollection 用户凭证</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 返回授权信息，包含所拥有的角色和权限</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 略</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据用户提交的凭证查询是否具有这个用户 (这里不判断密码是否正确)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> authenticationToken 用户凭证 (账户密码)</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 相应的用户信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> AuthenticationException 当用户不存在或具备其他状态, 如被锁定, 等状态会抛出相应的异常</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken authenticationToken)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 这个方法也可以使用 DAO 层的方法来查询数据库，返回 user 对象。</span></span><br><span class="line">        User user = selectUserByUserName((String) authenticationToken.getPrincipal());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (user == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UnknownAccountException(<span class="string">&quot;账号不存在&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 告诉 Relam, 校验密码时需要加的盐.</span></span><br><span class="line">        ByteSource slat = ByteSource.Util.bytes(<span class="string">&quot;ShiroStudy&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(user.getUsername(), user.getPassword(), slat, <span class="keyword">super</span>.getName());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Set&lt;String&gt; <span class="title">selectPermissionsByUserName</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 略</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Set&lt;String&gt; <span class="title">selectRolesByUserName</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 略</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> User <span class="title">selectUserByUserName</span><span class="params">(String username)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 略</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要是 <code>doGetAuthenticationInfo</code> 方法，其他的代码与上一章的基本相同。</p>
+<p>在 <code>doGetAuthenticationInfo</code> 中我们返回的 <code>AuthenticationInfo</code>  信息中，将盐加了进去。</p>
+<p>我们来测试下这个 Realm : </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> im.zhaojun;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> im.zhaojun.realm.MyCustomRealm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.UsernamePasswordToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.credential.HashedCredentialsMatcher;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.crypto.hash.Md5Hash;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.mgt.DefaultSecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.ByteSource;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Shiro 加密测试</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EncryptionTest</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testEncryptionRealm</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DefaultSecurityManager securityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建 Relam</span></span><br><span class="line">        MyCustomRealm realm = <span class="keyword">new</span> MyCustomRealm();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建密码匹配器</span></span><br><span class="line">        HashedCredentialsMatcher credentialsMatcher = <span class="keyword">new</span> HashedCredentialsMatcher(<span class="string">&quot;md5&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 告诉 Realm 密码匹配方式</span></span><br><span class="line">        realm.setCredentialsMatcher(credentialsMatcher);</span><br><span class="line"></span><br><span class="line">        securityManager.setRealm(realm);</span><br><span class="line"></span><br><span class="line">        SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line"></span><br><span class="line">        Subject subject = SecurityUtils.getSubject();</span><br><span class="line">        UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">&quot;zhao&quot;</span>, <span class="string">&quot;123456&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            subject.login(token);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (AuthenticationException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;登陆失败&quot;</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;当前登陆状态: &quot;</span> + subject.isAuthenticated());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要为 Relam 指定一个 <code>CredentialsMatcher</code>，这里我们使用他的一个是实现类 : <code>HashedCredentialsMatcher</code>，并设置加密算法为 <code>md5</code>。</p>
+<blockquote>
+<p>基本的加密使用就这些，具体的细节上，还有更多的加密算法，加密次数等内容，本篇为不对新手造成更多的初学负担，便不再展开，如需要深入了解，请自行查询。</p>
+</blockquote>
+<p>本章代码地址：<a target="_blank" rel="noopener" href="https://github.com/zhaojun1998/Premission-Study/tree/master/Permission-Shiro-04/">https://github.com/zhaojun1998/Premission-Study/tree/master/Permission-Shiro-04/</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>赵俊
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.zhaojun.im/shiro-04/" title="Shiro 加密">http://www.zhaojun.im/shiro-04/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Shiro/" rel="tag"># Shiro</a>
+              <a href="/tags/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86/" rel="tag"># 权限管理</a>
+              <a href="/tags/RBAC/" rel="tag"># RBAC</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/shiro-03/" rel="prev" title="Shiro Realm">
+                  <i class="fa fa-chevron-left"></i> Shiro Realm
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/digitalocean-mount-volume/" rel="next" title="DigitalOcean 挂载 volume 硬盘">
+                  DigitalOcean 挂载 volume 硬盘 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">冀ICP备17004571号-3 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵俊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

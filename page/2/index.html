@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zhaojun.im","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="赵俊的博客">
+<meta property="og:url" content="http://www.zhaojun.im/page/2/index.html">
+<meta property="og:site_name" content="赵俊的博客">
+<meta property="og:description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="赵俊">
+<meta property="article:tag" content="Java, Hexo, Valine, Hexo 评论系统, Valine 邮件通知,  多线程, 算法, Spring">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.zhaojun.im/page/2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>赵俊的博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">赵俊的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">在记录中成长</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-popular"><a href="/popular/" rel="section"><i class="fa fa-fire fa-fw"></i>热门</a></li>
+        <li class="menu-item menu-item-friends"><a href="/friends/" rel="section"><i class="fa fa-child fa-fw"></i>友链</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="赵俊"
+      src="/uploads/avatar.gif">
+  <p class="site-author-name" itemprop="name">赵俊</p>
+  <div class="site-description" itemprop="description">一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaojun1998" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaojun1998" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:root@zhaojun.im" title="E-Mail → mailto:root@zhaojun.im" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      相关链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://file.jun6.net/" title="https:&#x2F;&#x2F;file.jun6.net" rel="noopener" target="_blank">在线网盘</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://img.jun6.net/" title="http:&#x2F;&#x2F;img.jun6.net" rel="noopener" target="_blank">免费图床</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://json.zhaojun.im/" title="http:&#x2F;&#x2F;json.zhaojun.im" rel="noopener" target="_blank">在线 JSON 解析</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://u-file.cn/" title="https:&#x2F;&#x2F;u-file.cn" rel="noopener" target="_blank">U-FILE 云盘</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/spring-dynamic-injection-dependency/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/spring-dynamic-injection-dependency/" class="post-title-link" itemprop="url">Spring 动态注入依赖设计</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2019-09-02 21:21:21 / 修改时间：21:26:38" itemprop="dateCreated datePublished" datetime="2019-09-02T21:21:21+08:00">2019-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在开发一个在线网盘的功能, 支持多个存储策略. 启动时, 读取数据库, 获取当前启用的存储类型, 然后项目启动后, 还可以动态切换存储类型.</p>
+<p>由于是基于 Spring 开发的, 所以一般是这么写的: </p>
+<p>接口:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FileService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 接口中的方法, 以此为例.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取当前的存储类型</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span>  存储类型</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function">String <span class="title">getStorageType</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>阿里云实现类:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AliyunFileService</span> <span class="keyword">implements</span> <span class="title">FileService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// do something...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStorageType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;阿里云&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/spring-dynamic-injection-dependency/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/leetcode-461/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/leetcode-461/" class="post-title-link" itemprop="url">LeetCode 461 Hamming Distance</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2019-07-15 21:51:34 / 修改时间：21:55:06" itemprop="dateCreated datePublished" datetime="2019-07-15T21:51:34+08:00">2019-07-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="汉明距离"><a href="#汉明距离" class="headerlink" title="汉明距离"></a>汉明距离</h1><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>两个整数之间的汉明距离指的是这两个数字对应二进制位不同的位置的数目。</p>
+<p>给出两个整数 x 和 y，计算它们之间的汉明距离。</p>
+<p>注意：<br>0 ≤ x, y &lt; 231.</p>
+<p>示例:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入: x = <span class="number">1</span>, y = <span class="number">4</span></span><br><span class="line"></span><br><span class="line">输出: <span class="number">2</span></span><br><span class="line"></span><br><span class="line">解释:</span><br><span class="line"><span class="number">1</span>   (<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span>)</span><br><span class="line"><span class="number">4</span>   (<span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span>)</span><br><span class="line">       ↑   ↑</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/leetcode-461/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/leetcode-338/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/leetcode-338/" class="post-title-link" itemprop="url">LeetCode 338 Counting Bits</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2019-07-11 20:23:34 / 修改时间：21:22:16" itemprop="dateCreated datePublished" datetime="2019-07-11T20:23:34+08:00">2019-07-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="比特位计数"><a href="#比特位计数" class="headerlink" title="比特位计数"></a>比特位计数</h1><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给定一个非负整数 <code>num</code>. 对于 <code>0 ≤ i ≤ num</code> 范围中的每个数字 <code>i</code>, 计算其二进制数中的 <code>1</code> 的数目并将它们作为数组返回.</p>
+<p>示例 1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 2</span><br><span class="line">输出: [0,1,1]</span><br></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: 5</span><br><span class="line">输出: [0,1,1,2,1,2]</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/leetcode-338/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/leetcode-191/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/leetcode-191/" class="post-title-link" itemprop="url">LeetCode 191 Number of 1 Bits</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2019-07-11 20:00:34 / 修改时间：21:22:28" itemprop="dateCreated datePublished" datetime="2019-07-11T20:00:34+08:00">2019-07-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="位1的个数"><a href="#位1的个数" class="headerlink" title="位1的个数"></a>位1的个数</h1><h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>编写一个函数，输入是一个<strong>无符号整数</strong>，返回其二进制表达式中数字位数为 <code>1</code> 的个数.</p>
+<p>示例 1：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：00000000000000000000000000001011</span><br><span class="line">输出：3</span><br><span class="line">解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
+
+<p>示例 2：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：00000000000000000000000010000000</span><br><span class="line">输出：1</span><br><span class="line">解释：输入的二进制串 00000000000000000000000010000000 中，共有一位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
+
+<p>示例 3：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：11111111111111111111111111111101</span><br><span class="line">输出：31</span><br><span class="line">解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 &#39;1&#39;。</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/leetcode-191/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/mysql-03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/mysql-03/" class="post-title-link" itemprop="url">初识 redo log 和 binlog</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-09 11:47:35" itemprop="dateCreated datePublished" datetime="2019-06-09T11:47:35+08:00">2019-06-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-06-10 10:05:02" itemprop="dateModified" datetime="2019-06-10T10:05:02+08:00">2019-06-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="redo-log"><a href="#redo-log" class="headerlink" title="redo log"></a>redo log</h2><p><code>InnoDB</code> 存储引擎是<strong>以页为单位</strong>来管理存储空间的, 我们的增删改查操作本质上都是在访问<strong>页面</strong>, 如读取一条数据, 会把这个数据<strong>所在的页</strong>加载到内存中, 而不仅仅是这条数据本身, 这个页的默认大小是 <code>16KB</code>.</p>
+<p>在事务中, 我们有一个特性: <strong>持久性</strong>, 指对于一个已提交的事务, 在事务提交后, 即使系统崩溃, 也要保证这个事务对数据库做的更改不会丢失, 那么我们如何保证这一点呢, 有一个简单粗暴的做法就是: <strong>在事务提交之前, 将事务所修改的所有页面都刷新到磁盘</strong>, 但这种做法有几个问题:</p>
+<ul>
+<li>刷新一个数据页太浪费了, 可能我们只修改了这个数据页中的一个字节, 但 <code>InnoDB</code> 所有操作都是基于页面的, 我们只修改一个字节就要刷新一个 16KB 的页到磁盘上台浪费了.</li>
+<li>随机 IO 刷起来比较慢, 一个事务可能包含了很多语句, 即使一条语句, 也可能修改了许多页面, 有可能修改的这些页面并不相邻, 那么这就需要进行很多次随机 IO, 这相对顺序 IO 来说很慢, 尤其对机械硬盘来说.</li>
+</ul>
+<p>那么如何解决这个问题呢, <code>InnoDB</code> 采用了 <strong>redo log</strong> 机制来解决:</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/mysql-03/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/mysql-04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/mysql-04/" class="post-title-link" itemprop="url">MySQL 索引</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-09 11:47:35" itemprop="dateCreated datePublished" datetime="2019-06-09T11:47:35+08:00">2019-06-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-07-17 22:37:36" itemprop="dateModified" datetime="2019-07-17T22:37:36+08:00">2019-07-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><p>数据库的索引是一个要点, 无论是面试还是在工作中, 这个知识点都很常会用到, 你可能只是用过索引, 知道加了索引可以提高查询的性能, 但不知道为什么这样, 今天我们一起来详细了解下吧.</p>
+<h2 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h2><p>索引有很多种存储结构, 称之为索引模型, 不同类型的模型分别对应不同的适用场景.</p>
+<h3 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h3><p>哈希表是一种以键值对存储数据的结构 <code>KEY - VALUE</code>. 查找时输入 <code>key</code> 来查找对应点 <code>value</code>.</p>
+<p>哈希表的思路很简单, 将值放置到数组中. 如定义一个长度为 16 的数组, 输入 <code>key</code>: <code>user1</code>, 对 <code>user1</code> 做哈希运算 (利用哈希函数), 返回一个整数, 如 <code>2156648</code>, 用这个数对 16 取余, 返回值为 8. 那么就将他放到数组的第 8 个位置.</p>
+<p>你可能会有下面的疑惑:</p>
+<ul>
+<li>哈希函数又是什么: 哈希函数的意图就是把任何长度输入值, 变化成固定长度的输出, 一般为整数.</li>
+<li>哈希值会冲突么, 冲突了怎么办: 会冲突, 冲突了有许多中解决方式, 今天我讲一种比较常用的, 即在数组中不直接存放数据值, 而是存放一个链表, 当冲突时, 就把多个值通过链表串联起来. 类似于 Java 中 <code>HashMap</code> 的存储方式.</li>
+</ul>
+<blockquote>
+<p>总结: <strong>适合用于等值查询</strong>, 不适用于范围查询. 出现大量哈希冲突的情况后, 查询效率会很低.</p>
+</blockquote>
+<h3 id="有序数组"><a href="#有序数组" class="headerlink" title="有序数组"></a>有序数组</h3><p>这个就更简单了, 将所有值从小到大排序, 这样查找时, 可以采用二分法, 时间复杂度只有 <code>O(logN)</code>. 而且对范围查询的支持也非常好, 先根据二分法, 找到范围查询的左值, 然后依次遍历数组到范围查询的右值即可.</p>
+<p>但这仅仅是查询效率很好, 但向数组中心插入值就麻烦了, 如现有数据 <code>[1, 5, 8, 10, 11, 13]</code>, 现在要插入数据值 <code>3</code>, 那么就要将 <code>5, 8, 10, 11, 13</code> 这些值都向后移动一位, 插入操作的效率为 <code>O(N)</code>, 这并不是一个理想的效率.</p>
+<blockquote>
+<p>适用于范围查询. 等值查询的效率也较高, 但插入操作效率较低.</p>
+</blockquote>
+<h3 id="搜索树"><a href="#搜索树" class="headerlink" title="搜索树"></a>搜索树</h3><h4 id="二叉搜索树"><a href="#二叉搜索树" class="headerlink" title="二叉搜索树"></a>二叉搜索树</h4><p>二叉搜索树的特点是: 每个节点的左儿子小于父节点, 父节点又小于右儿子. 如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">       5</span><br><span class="line">      &#x2F; \</span><br><span class="line">    3    6</span><br><span class="line">   &#x2F; \    \</span><br><span class="line">  2   4    8</span><br><span class="line"> &#x2F;        &#x2F; \ </span><br><span class="line">1        7   9</span><br></pre></td></tr></table></figure>
+
+<p>这是如果你找值 7, 先从根节点 5 开始找, 比 5 大, 那肯定在右边, 所以找到第二层的 6, 比 6 还大, 找到第三次的 8, 比 8 小, 最后找到第四层的 7, 这样最坏的情况也就数据在树的最后一层, 即<strong>平均时间复杂度</strong>为 <code>O(logN)</code>.</p>
+<h4 id="平衡二叉树-红黑树"><a href="#平衡二叉树-红黑树" class="headerlink" title="平衡二叉树 (红黑树)"></a>平衡二叉树 (红黑树)</h4><p>但是二叉搜索树还可能会出现一个问题是树不平衡, 如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line"> \</span><br><span class="line">  2</span><br><span class="line">   \</span><br><span class="line">    3</span><br><span class="line">     \</span><br><span class="line">      4</span><br><span class="line">       \</span><br><span class="line">        5</span><br><span class="line">         \</span><br><span class="line">          6</span><br><span class="line">           \</span><br><span class="line">            7</span><br><span class="line">             \</span><br><span class="line">              8</span><br><span class="line">               \</span><br><span class="line">                9</span><br></pre></td></tr></table></figure>
+
+<p>上面我们提高二叉搜索树的查询性能取决于树的高度, 现在这个数查询的性能变成了 O(N), 性能大打折扣. 为了解决这个问题, 提出了 <code>红黑树</code> 的概念. 他是一种自平衡的二叉搜索树, 即在插入节点时, 判断整个树是否是平衡的, 如果不平衡, 通过一系列旋转操作来达到平衡的目的, 在更新时维持树的平衡需要的时间复杂度也是 <code>O(logN)</code>.</p>
+<blockquote>
+<p>红黑树的篇幅有点长, 不太适合放到这里, 需要详细了解的朋友, 可自行查阅相关知识.</p>
+</blockquote>
+<h4 id="N-叉树-B-树-B-树"><a href="#N-叉树-B-树-B-树" class="headerlink" title="N 叉树 (B 树, B+ 树)"></a>N 叉树 (B 树, B+ 树)</h4><p>同样的, 平衡二叉树也有一个问题, 如当数据有 100 条时, 此时树的高度为 20, 那么一次查询可能需要访问 20 个数据块, 也就是访问 20 次磁盘, 这是不能被接受的, 尤其是在机械硬盘下, 为了让一个查询更少的读取磁盘, 我们就不应该使用二叉树, 而是 N 叉树, 这个 N 取决于数据块的大小.</p>
+<p>以 InnoDB 的一个整数字段索引为例, 这个 N 差不多是 1200, 当树高为 4 时, 可以存储 1200 的三次方个值, 大约为 17 亿, 那么这样访问磁盘的次数就大大减少了.</p>
+<blockquote>
+<p>InnoDB 中的 B+ 树, 就是 N 叉树的一种实现.</p>
+</blockquote>
+<h2 id="InnoDB-存储模型"><a href="#InnoDB-存储模型" class="headerlink" title="InnoDB 存储模型"></a>InnoDB 存储模型</h2><p>在 InnoDB 中, 表是根据主键顺序以索引的形式存放的, InnoDB 存储模型采用了 B+ 树索引模型, <strong>在 InnoDB 中每一个索引都对应着一颗 B+ 树</strong>, 每棵非主键索引树的叶子节点存储的是主键的值, 每棵主键树的叶子节点存储的是整行数据值.</p>
+<p>假如, 我们有一个主键列为 ID 的表, 表中有字段 K, 并且在 K 上有索引, 建表语句如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> T</span><br><span class="line">(</span><br><span class="line">    id <span class="type">int</span> <span class="keyword">primary</span> key, </span><br><span class="line">    k <span class="type">int</span> <span class="keyword">not</span> <span class="keyword">null</span>, </span><br><span class="line">    name <span class="type">varchar</span>(<span class="number">16</span>),</span><br><span class="line">    index (k)</span><br><span class="line">) engine <span class="operator">=</span> InnoDB;</span><br></pre></td></tr></table></figure>
+
+<p>然后插入数据:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T(id, k, name) <span class="keyword">values</span>(<span class="number">100</span>, <span class="number">1</span>, &quot;A&quot;);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T(id, k, name) <span class="keyword">values</span>(<span class="number">200</span>, <span class="number">2</span>, &quot;B&quot;);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T(id, k, name) <span class="keyword">values</span>(<span class="number">300</span>, <span class="number">3</span>, &quot;C&quot;);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T(id, k, name) <span class="keyword">values</span>(<span class="number">400</span>, <span class="number">4</span>, &quot;D&quot;);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T(id, k, name) <span class="keyword">values</span>(<span class="number">500</span>, <span class="number">5</span>, &quot;E&quot;);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> T(id, k, name) <span class="keyword">values</span>(<span class="number">600</span>, <span class="number">6</span>, &quot;F&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>两个树的示意图如下:</p>
+<p><img src="https://cdn.jun6.net/2019/07/17/5d2f325737b14.png"></p>
+<p>那么对于 <strong>主键索引和普通索引的查询有什么区别呢?</strong></p>
+<p>如查询语句 <code>select * from T where ID = 500</code>, 即根据主键进行查询, 则只需要搜索 ID 索引树.</p>
+<p>如查询语句 <code>select * from T where K = 5</code>, 即根据普通索引进行查询, 则需要先搜索 K 索引树, 得到 ID 值 500, 再到 ID 索引树搜索. 这个过程称之为<strong>回表</strong>.</p>
+<p>由于普通索引的叶子节点存储的是主键, 那么很显然, 主键长度越小越好, 所以自增主键是一个很好的选择.</p>
+<p>当然, 如果你自己有业务字段是唯一的, 且不需要其他索引, 那么使用业务字段来做主键会适合.</p>
+<h2 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>还是上面那个查询语句: <code>select * from T where K = 5</code>, 上面我们他会进行 <strong>回表</strong> 操作.</p>
+<p>那么有没有可能经过索引优化, 不回表呢?</p>
+<p>如果执行的语句是: <code>select ID from T where K = 5</code>, 这时只需要查找 ID 值, 而 ID 值已经在 k 索引树的叶子节点中了, 这样已经得到了需要的数据, 就不用进行 <strong>回表</strong> 操作了.</p>
+<p>在这个查询中, 索引 k 覆盖了我们需要查询的字段,  我们称之为 <strong>覆盖索引</strong>.</p>
+<blockquote>
+<p>由于覆盖索引可以减少树的搜索次数，显著提升查询性能，所以使用覆盖索引是一个常用的性能优化手段。</p>
+</blockquote>
+<h2 id="最左前缀索引"><a href="#最左前缀索引" class="headerlink" title="最左前缀索引"></a>最左前缀索引</h2><p>当然, 我们不能为所有需要查询的字段都建立上 <strong>索引</strong>, 那索引就太多了, 并且索引的维护成本也很大, 其实 <strong>B+ 树</strong> 这种索引结构, 支持最左前缀匹配, 来定位记录.</p>
+<p>如现在我们有 <code>(name, age)</code> 这个联合索引 :</p>
+<p><img src="https://cdn.jun6.net/201905191038_931.png"></p>
+<p>可以看到, 索引已经按照定义中的顺序排序好了, name 在前, age 在后, 如果 name 一致, 按照 age 排序.</p>
+<p>此时我们需要查找所有姓名等于 “张三” 的人, 可以快速定位到 ID4, 然后向后遍历直到姓名不等于张三.</p>
+<p>那么如果你要查找的是所有姓名的第一个字等于 “张” 的人, 也可以快速定位到 ID3, 然后向后遍历直到不符合条件.</p>
+<p>同理, 如现在有联合索引 <code>(name, age, score)</code>, 那么我们查询 <code>where name = &#39;%张&#39; and age = 10</code> 也是用到了索引的, 但查询 <code>where name = &#39;%张&#39; and score = 60</code>, 就没有完全用到这个索引.</p>
+<p>由此可知, 我们只要满足索引的最左前缀, 就可以用索引来加速检索, 这个最左前缀可以是联合索引的最左 <code>N</code> 个字段, 也可以是字符串索引的前 <code>M</code> 个字符.</p>
+<h2 id="索引下推"><a href="#索引下推" class="headerlink" title="索引下推"></a>索引下推</h2><p>上一段我们提到了最左前缀可以用来在索引中定位记录, 但如果不符合最左前缀的部分, 应该怎么办呢?</p>
+<p>还是以 <code>(name, age)</code> 联合索引为例. 现在需要查询 “名字第一个字是张, 年龄为 10 的男孩”, sql 示意如下:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tuser <span class="keyword">where</span> name <span class="keyword">like</span> <span class="string">&#x27;张%&#x27;</span> <span class="keyword">and</span> age <span class="operator">=</span> <span class="number">10</span> <span class="keyword">and</span> ismale <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p>再次附上索引结构图:</p>
+<p><img src="https://cdn.jun6.net/201905191038_931.png"></p>
+<p>这个索引只能用到 name 的前缀索引, 找到第一个满足条件的记录 ID3, 然后, 如何判断后面两个条件是否满足呢?</p>
+<p>在 MySQL 5.6 之前, 只能从 ID3 开始一个一个的回表, 到主键索引上找出数据行, 再比对字段值.</p>
+<p>而在 MySQL 5.6 引入了索引下推优化, 即在索引遍历过程中, 对索引中<strong>包含的字段</strong>先做判断, 先过滤到不符合条件的记录, 避免回表:</p>
+<p>无索引下推执行流程:<br><img src="https://cdn.jun6.net/201905191107_285.png"></p>
+<p>有索引下推执行流程:</p>
+<p><img src="https://cdn.jun6.net/201905191107_395.png"></p>
+<p>每个虚线表示回表一次, 在无索引下推图中, 我特意去掉了 age 值, 因为他不会看 age 的值, 只是按顺序把 name 第一个字是 “张” 的所有数据一个一个回表, 因此回表了 4 次.</p>
+<p>而在有索引下推时, InnoDB 在 <code>(name, age)</code> 索引内部就判断了 age 是否等于 10, 对于不等于的, 直接跳过, 所以这里只回表了 2 次.</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">冀ICP备17004571号-3 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵俊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

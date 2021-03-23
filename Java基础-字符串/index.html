@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png">
+  <link rel="mask-icon" href="/images/logo.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.zhaojun.im","root":"/","images":"/images","scheme":"Pisces","version":"8.2.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}};
+  </script>
+<meta name="description" content="概述 字符串是一个特殊的对象 字符串一旦初始化就不可以被改变  字符串的创建方式12String str1 &#x3D; &quot;abc&quot;;String str2 &#x3D; new String(&quot;abc&quot;);  str1 和 str2 有什么区别？  s1 在内存中有一个对象 s2 在内存中有两个对象  12System.out.println(str1 &#x3D;&#x3D; str2);">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础：字符串">
+<meta property="og:url" content="http://www.zhaojun.im/Java%E5%9F%BA%E7%A1%80-%E5%AD%97%E7%AC%A6%E4%B8%B2/index.html">
+<meta property="og:site_name" content="赵俊的博客">
+<meta property="og:description" content="概述 字符串是一个特殊的对象 字符串一旦初始化就不可以被改变  字符串的创建方式12String str1 &#x3D; &quot;abc&quot;;String str2 &#x3D; new String(&quot;abc&quot;);  str1 和 str2 有什么区别？  s1 在内存中有一个对象 s2 在内存中有两个对象  12System.out.println(str1 &#x3D;&#x3D; str2);">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-03-05T11:06:00.000Z">
+<meta property="article:modified_time" content="2018-07-06T03:32:38.000Z">
+<meta property="article:author" content="赵俊">
+<meta property="article:tag" content="字符串">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://www.zhaojun.im/Java%E5%9F%BA%E7%A1%80-%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+<title>Java基础：字符串 | 赵俊的博客</title>
+  
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">赵俊的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">在记录中成长</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-popular"><a href="/popular/" rel="section"><i class="fa fa-fire fa-fw"></i>热门</a></li>
+        <li class="menu-item menu-item-friends"><a href="/friends/" rel="section"><i class="fa fa-child fa-fw"></i>友链</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%88%9B%E5%BB%BA%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">字符串的创建方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">字符串常见操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96"><span class="nav-number">3.1.</span> <span class="nav-text">获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E6%96%AD"><span class="nav-number">3.2.</span> <span class="nav-text">判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.3.</span> <span class="nav-text">转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E5%89%B2"><span class="nav-number">3.4.</span> <span class="nav-text">切割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E4%B8%B2"><span class="nav-number">3.5.</span> <span class="nav-text">子串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C"><span class="nav-number">3.6.</span> <span class="nav-text">其他操作</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="赵俊"
+      src="/uploads/avatar.gif">
+  <p class="site-author-name" itemprop="name">赵俊</p>
+  <div class="site-description" itemprop="description">一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">186</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhaojun1998" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhaojun1998" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:root@zhaojun.im" title="E-Mail → mailto:root@zhaojun.im" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license site-overview-item animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      相关链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://file.jun6.net/" title="https:&#x2F;&#x2F;file.jun6.net" rel="noopener" target="_blank">在线网盘</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://img.jun6.net/" title="http:&#x2F;&#x2F;img.jun6.net" rel="noopener" target="_blank">免费图床</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://json.zhaojun.im/" title="http:&#x2F;&#x2F;json.zhaojun.im" rel="noopener" target="_blank">在线 JSON 解析</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://u-file.cn/" title="https:&#x2F;&#x2F;u-file.cn" rel="noopener" target="_blank">U-FILE 云盘</a>
+        </li>
+    </ul>
+  </div>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://www.zhaojun.im/Java%E5%9F%BA%E7%A1%80-%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.gif">
+      <meta itemprop="name" content="赵俊">
+      <meta itemprop="description" content="一个 Java 学习者的博客，分享 Java 干货, VPS 知识, 软件推荐等。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="赵俊的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java基础：字符串
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-03-05 19:06:00" itemprop="dateCreated datePublished" datetime="2017-03-05T19:06:00+08:00">2017-03-05</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-07-06 11:32:38" itemprop="dateModified" datetime="2018-07-06T11:32:38+08:00">2018-07-06</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+<li>字符串是一个特殊的对象</li>
+<li>字符串一旦初始化就不可以被改变</li>
+</ul>
+<h2 id="字符串的创建方式"><a href="#字符串的创建方式" class="headerlink" title="字符串的创建方式"></a>字符串的创建方式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">String str2 = <span class="keyword">new</span> String(<span class="string">&quot;abc&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>str1 和 str2 有什么区别？</strong></p>
+<ul>
+<li>s1 在内存中有一个对象</li>
+<li>s2 在内存中有两个对象</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(str1 == str2);     <span class="comment">//false 比较地址是否相同</span></span><br><span class="line">System.out.println(str1.equals(str2));  <span class="comment">//true  比较字符串的内容是否相同。</span></span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="字符串常见操作"><a href="#字符串常见操作" class="headerlink" title="字符串常见操作"></a>字符串常见操作</h2><h3 id="获取"><a href="#获取" class="headerlink" title="获取"></a>获取</h3><ul>
+<li><strong>获取长度</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">length</span><span class="params">()</span></span>;  <span class="comment">//返回字符串的长度。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>根据位置获取某个字符</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> <span class="title">charAt</span><span class="params">(<span class="keyword">int</span> index)</span></span>; <span class="comment">//根据数组元素的角标值来获取某个元素。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>根据字符获取位置</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里的 int ch 指的是字符在 ASCII 码中的对应数字。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//返回的是 ch 在字符串中第一次出现的位置</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(<span class="keyword">int</span> ch)</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//返回的是 ch 在字符串中第一次出现的位置</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(<span class="keyword">int</span> ch, <span class="keyword">int</span> fromIndex)</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//返回的是字符串 str 在字符串中第一次出现的位置</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(String str)</span>：</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="comment">//从 fromIndex 这个位置开始，获取字符串 str 在字符串中出现的位置</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">indexOf</span><span class="params">(String str, <span class="keyword">int</span> fromIndex)</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//这里跟上面的 indexOf() 类似，只不过是倒序查找，也有四种重载的方法。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lastIndexOf</span><span class="params">(<span class="keyword">int</span> ch)</span></span>;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h3><ul>
+<li><strong>判断字符串中是否包含某一个子串</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//其实与获取中的 indexOf(String str) 方法效果也是相同的，返回值为 -1 时即包含不存在。</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">contains</span><span class="params">(String str)</span></span>;  </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>判断字符串是否为空</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//其实就是判断字符串长度是否等于 0</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;  </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>判断字符串是否以指定内容开头</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">startsWith</span><span class="params">(String str)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>判断字符串是否以指定内容结尾</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">endsWith</span><span class="params">(String str)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h3><ul>
+<li><strong>将字符数组转成字符串</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">构造函数：String(<span class="keyword">char</span>[])</span><br><span class="line">          String(<span class="keyword">char</span>[],offset,count); <span class="comment">//从 offset开始，一共 count 个</span></span><br><span class="line"></span><br><span class="line">静态方法：</span><br><span class="line">        <span class="function"><span class="keyword">static</span> String <span class="title">copyValueOf</span><span class="params">(<span class="keyword">char</span>[] data)</span></span>;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> String <span class="title">copyValueOf</span><span class="params">(<span class="keyword">char</span>[] data, <span class="keyword">int</span> offset, <span class="keyword">int</span> count)</span></span>; </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">static</span> String <span class="title">valueOf</span><span class="params">(<span class="keyword">char</span>[] data)</span></span>;   </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>将字符串转成字符数组</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>[] toCharArray();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>将字节数组转成字符串</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String(<span class="keyword">byte</span>[]);</span><br><span class="line">String(<span class="keyword">byte</span>[],offset,count); <span class="comment">//将字节数组中的一部分转成字符串。</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>将字符串转成字节数组</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span>[]  getBytes();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>将基本数据类型转成字符串</strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> String <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">static</span> String <span class="title">valueOf</span><span class="params">(<span class="keyword">double</span>)</span></span>;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line"> ```      </span><br><span class="line"></span><br><span class="line">### 替换</span><br><span class="line"></span><br><span class="line">```java  </span><br><span class="line"><span class="comment">//将字符串中所有的 oldchar 替换为 newchar，如果要替换的字符不存在，那么返回的还是原字符串</span></span><br><span class="line"><span class="function">String <span class="title">replace</span><span class="params">(<span class="keyword">char</span> oldchar,<span class="keyword">char</span> newchar)</span></span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">//可以根据正则表达式进行替换</span></span><br><span class="line"><span class="function">String <span class="title">replaceAll</span><span class="params">(String regex, String replacement)</span></span>;  </span><br></pre></td></tr></table></figure>
+
+<h3 id="切割"><a href="#切割" class="headerlink" title="切割"></a>切割</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String[] split(String regex);  <span class="comment">//将字符串根据某种规则进行切割。</span></span><br><span class="line"></span><br><span class="line">String str = <span class="string">&quot;zhangsan,lisi,wangwu&quot;</span>;</span><br><span class="line">String[] arr = str.split(<span class="string">&quot;,&quot;</span>);</span><br><span class="line"></span><br><span class="line">然后字符串数组 arr 中的结果就是三个字符串  zhagnsan   lisi   wangwu</span><br></pre></td></tr></table></figure>
+
+<h3 id="子串"><a href="#子串" class="headerlink" title="子串"></a>子串</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">String <span class="title">substring</span><span class="params">(<span class="keyword">int</span> begin)</span></span>;    <span class="comment">//从指定位置开始到结尾</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//包含头，不包含尾 对字符串 &quot;abcdefg&quot; substring(2,4) 的结果是 &quot;cd&quot;</span></span><br><span class="line"><span class="function">String <span class="title">substring</span><span class="params">(<span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span></span>;   </span><br></pre></td></tr></table></figure>
+
+<h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">String <span class="title">toUpperCase</span><span class="params">()</span></span>; <span class="comment">//转换为大写</span></span><br><span class="line"><span class="function">String <span class="title">toLowerCase</span><span class="params">()</span></span>;  <span class="comment">//转换为小写</span></span><br><span class="line"></span><br><span class="line"><span class="function">String <span class="title">trim</span><span class="params">()</span></span>;  <span class="comment">//去除两端空格。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//按照自然顺序进行比较，到第一个不相同的字符上，进行 ASCII 比较，返回相差数。</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(String str)</span></span>; </span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>赵俊
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.zhaojun.im/Java%E5%9F%BA%E7%A1%80-%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="Java基础：字符串">http://www.zhaojun.im/Java基础-字符串/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" rel="tag"># 字符串</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Java%E5%9F%BA%E7%A1%80-%E5%86%85%E9%83%A8%E7%B1%BB/" rel="prev" title="Java基础：内部类">
+                  <i class="fa fa-chevron-left"></i> Java基础：内部类
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Java%E5%9F%BA%E7%A1%80-StringBuffer%20%E4%B8%8E%20StringBuilder/" rel="next" title="Java基础：StringBuffer 与 StringBuilder">
+                  Java基础：StringBuffer 与 StringBuilder <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">冀ICP备17004571号-3 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">赵俊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
